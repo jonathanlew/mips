@@ -49,18 +49,18 @@ endmodule
 module IDEX(//input
     clk, en, //allows stalls
     bubbleSel, //sets stage to nop
-    opCodeIn, PCSelIn, immSelIn, valAIn, valBIn, rdIn, sxImmIn, nextPCIn,
-    opCodeOut, PCSelOut, immSelOut, valAOut, valBOut, rdOut, sxImmOut, nextPCOut);
+    opCodeIn, PCSelIn, immSelIn, valAIn, valBIn, rdIn, sxImmIn, aluOpIn, shiftIn, nextPCIn,
+    opCodeOut, PCSelOut, immSelOut, valAOut, valBOut, rdOut, sxImmOut, aluOpOut, shiftOut, nextPCOut);
 
     input clk, en, PCSelIn, immSelIn, bubbleSel;
-    input [`opWidth-1:0]    opCodeIn;
-    input [`regWidth-1:0]   rdIn;
+    input [`opWidth-1:0]    opCodeIn, aluOpIn;
+    input [`regWidth-1:0]   rdIn, shiftIn;
     input [`valWidth-1:0]   sxImmIn, valAIn, valBIn;
     input [`PCWidth-1:0]    nextPCIn;
 
     output PCSelOut, immSelOut; 
-    output [`opWidth-1:0]   opCodeOut;
-    output [`regWidth-1:0]  rdOut;
+    output [`opWidth-1:0]   opCodeOut, aluOpOut;
+    output [`regWidth-1:0]  rdOut, shiftOut;
     output [`valWidth-1:0]  sxImmOut, valAOut, valBOut;
     output [`PCWidth-1:0]   nextPCOut;
 
@@ -68,6 +68,8 @@ module IDEX(//input
     vDFFE immSel    (clk, en, immSelIn, immSelOut);
     vDFFE #(`opWidth)  opCode   (clk, en, opCodeIn, opCodeOut);
     vDFFE #(`regWidth) rd       (clk, en, rdIn, rdOut);
+    vDFFE #(`opWidth)  aluOp    (clk, en, aluOpIn, aluOpOut);
+    vDFFE #(`regWidth) shift    (clk, en, shiftIn, shiftOut);
     vDFFE #(`valWidth) valA     (clk, en, valAIn, valAOut);
     vDFFE #(`valWidth) valB     (clk, en, valBIn, valBOut);
     vDFFE #(`valWidth) sxImm    (clk, en, sxImmIn, sxImmOut);
