@@ -4,4 +4,4 @@
 `define valWidth 32
 `define PCWidth 9
 
-module decodeStage (//inputs
+//module decodeStage (//inputs
